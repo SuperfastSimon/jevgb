@@ -21,8 +21,8 @@ Examples of unacceptable behavior:
 
 ## Enforcement
 
-Project maintainers may remove, edit, or reject comments, commits, code, and issues that violate this Code of Conduct. Report concerns by opening a private contact path with the repository owner on GitHub.
+Project maintainers may remove, edit, or reject comments, commits, code, and issues that violate this Code of Conduct. Report concerns privately to the maintainer, [@SuperfastSimon](https://github.com/SuperfastSimon), on GitHub: use GitHub's "Report content" option on the comment, issue or pull request concerned, or, for security-sensitive matters, the repository's private vulnerability reporting (Security tab, "Report a vulnerability") if it is enabled. Reports are handled confidentially.
 
 ## Attribution
 
-Adapted from the Contributor Covenant, version 2.1.
+Adapted from the Contributor Covenant, version 2.1, available at https://www.contributor-covenant.org/version/2/1/code_of_conduct/, licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).

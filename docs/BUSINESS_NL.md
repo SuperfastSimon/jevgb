@@ -26,9 +26,9 @@ Externe feiten hebben een bron en een raadpleegdatum. Alle omzetgetallen zijn **
 **Altijd gratis (MIT):** de router, de offline classifier, de bewakers, de cache, de brief en het `build-result`-contract, het tokengrootboek, `jevgb report`, het lokale dashboard en de skills.
 **Mogelijk betaald:** een gehost teamdashboard, een pro skill-pakket (brief-sjablonen en AGENTS.md-profielen per stack), installatie en ondersteuning, en extra's voor sponsors.
 
-## 4. Inkomstenopties en de creditcard-beperking
+## 4. Inkomstenopties zonder creditcard
 
-De maintainer kan geen diensten gebruiken die een **creditcard** vereisen. Geld *ontvangen* vraagt meestal een **bankrekening en identiteitscontrole**, en dat is iets anders. Controleer elke aanmeldpagina zelf.
+De opties hieronder zijn gekozen zonder **creditcard**-vereiste. Geld *ontvangen* vraagt meestal een **bankrekening en identiteitscontrole**, en dat is iets anders. Controleer elke aanmeldpagina zelf.
 
 | Optie | Kosten (bron, 2026-10-08) | Creditcard nodig? | Toelichting / alternatief |
 | --- | --- | --- | --- |
