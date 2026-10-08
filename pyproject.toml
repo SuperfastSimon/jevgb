@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jevgb"
+version = "0.1.0"
+description = "Unofficial community tool: cheap task routing for Grok Bot, compact Grok Build handoffs, and measured (estimated) token savings."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = ["pyyaml>=6"]
+
+[project.optional-dependencies]
+tokens = ["tiktoken>=0.7"]      # better token estimates; chars/4 fallback without it
+jev = ["typesafe-sdk"]          # optional TypeSafe Jev classifier (paid API)
+dev = ["pytest>=8", "fonttools>=4.50"]
+
+[project.scripts]
+jevgb = "jevgb.cli:main"
+jgb = "jevgb.cli:main"
+
+[tool.setuptools]
+packages = ["jevgb"]
+
+[tool.setuptools.package-data]
+jevgb = ["dashboard_static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,24 @@
+*** SIMULATED DATA: 10 of 10 records are simulated examples, not real usage. ***
+JevGB token report (all numbers are ESTIMATES)
+estimator: tiktoken cl100k_base (proxy estimate, not Grok's tokenizer)
+tasks: 10 (with measurable baseline: 7)
+baseline tokens: 37,407
+actual tokens:   8,198
+router overhead: 1,324
+net saved:       27,885 (74.5% of baseline)
+median net saved per measured task: 2319
+tasks where routing cost more than it saved: 1
+
+net saved by baseline quality (overhead of unmeasured tasks not included here): estimate=10,385, measured=17,802
+
+action                 tasks   baseline    actual  overhead       net
+ask_human                  1          0         0        83       -83
+build_result_relay         1      2,379        60         0     2,319
+chat_only                  1          0         0        76       -76
+handoff_build              2      9,157       610       495     8,052
+research_capped            2     18,000     7,500       258    10,242
+reuse_cache                1      4,562        17        91     4,454
+skip_duplicate_call        1        909        11       192       706
+stop_retry                 1      2,400         0       129     2,271
+
+baseline bases: artifact_production_cost(recorded at put), duplicate_result_size, full_build_output_vs_relay(measured), full_history_forward(measured from history_path), not_measurable, one_avoided_attempt(avg of recorded attempts), planned_sources x per_source_cap(estimate)

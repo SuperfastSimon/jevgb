@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JevGB: measured token savings for Grok Bot and Grok Build</title>
+<meta name="description" content="Open-source router for Grok Bot: compact Grok Build handoffs, caching and retry guards, and a token ledger that measures savings instead of promising them. Unofficial community project.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<!-- No analytics or external requests are included. The sponsor link works once GitHub Sponsors is enabled for SuperfastSimon. -->
+<style>
+:root{--ink:#14171C;--graphite:#3D434C;--slate:#5E6672;--mist:#D9DDE2;--haze:#ECEEF0;--paper:#F7F6F2;--white:#fff;--accent:#0F766E;--accent-weak:#E3F1EF;
+--sans:"IBM Plex Sans",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:12px;top:-48px;background:var(--ink);color:#fff;padding:8px 12px;border-radius:6px}.skip:focus{top:12px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+code{font-family:var(--mono);font-size:.85em;background:var(--haze);padding:.12em .4em;border-radius:4px}
+nav{display:flex;align-items:center;justify-content:space-between;min-height:84px;gap:16px}
+.brand{display:flex;align-items:center;text-decoration:none}.brand img{display:block;height:40px;width:auto}
+.lockup{display:block;height:80px;width:auto;margin:0 0 36px}
+.navlinks{display:flex;gap:22px;align-items:center;font-size:15px}.navlinks a{color:var(--graphite);text-decoration:none}.navlinks a:hover{color:var(--ink);text-decoration:underline}
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 16px/1 var(--sans);padding:13px 20px;border-radius:9px;text-decoration:none;border:1px solid var(--ink);background:var(--ink);color:#fff}
+.btn:hover{opacity:.9}.btn-quiet{background:transparent;color:var(--ink);border-color:var(--mist)}.btn-quiet:hover{background:var(--haze);opacity:1}
+.navlinks .btn{color:#fff;padding:10px 16px;font-size:15px}
+.hero{padding:72px 0 40px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{font:500 13px var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--accent);margin:0 0 16px}
+h1{font-size:clamp(38px,5.2vw,60px);line-height:1.04;letter-spacing:-.035em;margin:0 0 22px;font-weight:600}
+.lede{font-size:20px;color:var(--graphite);margin:0 0 30px;max-width:34em}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.cmd{margin-top:26px;font:14px var(--mono);color:var(--graphite)}
+.shot{border:1px solid var(--mist);border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -30px rgba(20,23,28,.35)}
+.shot img{display:block;width:100%;height:auto}
+.caption{font-size:13px;color:var(--slate);margin:10px 2px 0}
+section{padding:72px 0;border-top:1px solid var(--mist)}
+h2{font-size:clamp(28px,3.4vw,38px);line-height:1.12;letter-spacing:-.025em;margin:0 0 14px;font-weight:600}
+.sub{color:var(--graphite);max-width:40em;margin:0 0 40px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--mist);border-radius:14px;background:#fff}
+.step{padding:28px;border-left:1px solid var(--mist)}.step:first-child{border-left:0}
+.step .n{font:500 13px var(--mono);color:var(--accent)}
+.step h3{font-size:20px;margin:10px 0 8px;letter-spacing:-.01em}
+.step p{margin:0;color:var(--graphite);font-size:16px}
+.formula{font:500 clamp(18px,2.4vw,26px)/1.4 var(--mono);background:#fff;border:1px solid var(--mist);border-radius:14px;padding:28px 30px;margin:0 0 28px;letter-spacing:-.01em}
+.formula span{color:var(--accent)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+dl.q{margin:0;display:grid;gap:14px}dl.q div{display:grid;grid-template-columns:150px 1fr;gap:12px;border-top:1px solid var(--mist);padding-top:14px}
+dl.q dt{font:500 14px var(--mono)}dl.q dd{margin:0;color:var(--graphite);font-size:16px}
+ul.plain{list-style:none;padding:0;margin:0}ul.plain li{padding:12px 0;border-top:1px solid var(--mist);color:var(--graphite);font-size:16px}ul.plain li b{color:var(--ink)}
+.oss{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
+.card{background:#fff;border:1px solid var(--mist);border-radius:14px;padding:28px}
+.card h3{margin:0 0 8px;font-size:20px;letter-spacing:-.01em}.card p{margin:0 0 18px;color:var(--graphite);font-size:16px}
+footer{border-top:1px solid var(--mist);padding:32px 0 56px;font-size:14px;color:var(--slate)}
+footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.disclaimer{max-width:46em}
+@media (max-width:900px){.hero,.grid2,.oss{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.step{border-left:0;border-top:1px solid var(--mist)}.step:first-child{border-top:0}.navlinks a:not(.btn){display:none}dl.q div{grid-template-columns:1fr}}
+@media (max-width:560px){.lockup{height:60px;margin-bottom:28px}.brand img{height:34px}.wrap{padding:0 18px}.hero{padding-top:40px}section{padding:52px 0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap">
+  <nav aria-label="Main">
+    <a class="brand" href="#" aria-label="JevGB home"><img src="assets/logo-color.svg" alt="JevGB" height="40" width="130"></a>
+    <div class="navlinks">
+      <a href="#how">How it works</a><a href="#savings">Measured savings</a><a href="#open-source">Open source</a>
+      <a class="btn" href="https://github.com/SuperfastSimon/jevgb">View on GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="wrap hero">
+    <div>
+      <img class="lockup" src="assets/logo-color.svg" alt="JevGB" width="260" height="80">
+      <p class="eyebrow">Open source · Works offline · No API key needed</p>
+      <h1>Spend tokens on the work, not on re-reading the chat.</h1>
+      <p class="lede">JevGB sits in front of Grok Bot. It hands code work to Grok Build as a compact brief, reuses fresh results, stops repeated failures, and keeps a ledger of what each decision actually cost.</p>
+      <div class="ctas">
+        <a class="btn" href="https://github.com/SuperfastSimon/jevgb">Get the code</a>
+        <a class="btn btn-quiet" href="#savings">How savings are measured</a>
+      </div>
+      <p class="cmd"><code>pip install -e . &amp;&amp; jevgb route '{"goal":"Fix the failing test"}'</code></p>
+    </div>
+    <figure style="margin:0">
+      <div class="shot"><img src="assets/dashboard-hero.png" alt="JevGB dashboard showing net tokens saved, router overhead and a breakdown by action. Demo data is labeled as simulated." width="1440" height="900" loading="eager"></div>
+      <figcaption class="caption">The local dashboard, shown with simulated demo data.</figcaption>
+    </figure>
+  </div>
+
+  <section id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">How it works</h2>
+      <p class="sub">A small Python router that Grok Bot calls before heavy work. It runs on a free offline rules classifier, or on TypeSafe Jev if you have an API key.</p>
+      <div class="steps">
+        <div class="step"><span class="n">01 · Route</span><h3>Decide what the task needs</h3><p>The goal is classified as chat, lookup, research, browser, code or an account action. Irreversible actions always pause for your approval.</p></div>
+        <div class="step"><span class="n">02 · Hand off</span><h3>Send a brief, not the history</h3><p>Code work goes to Grok Build as a structured brief: goal, files, constraints, acceptance criteria, do-not-touch list. Grok Build reports back in a short, checkable block.</p></div>
+        <div class="step"><span class="n">03 · Measure</span><h3>Log what it cost</h3><p>Each decision writes baseline, actual and router overhead to a local JSONL ledger. <code>jevgb report</code> and the dashboard summarize it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="savings" aria-labelledby="sav-title">
+    <div class="wrap">
+      <h2 id="sav-title">Measured, not promised</h2>
+      <p class="sub">We don't claim a percentage. Savings depend on your chats and tasks, so the ledger counts them for you, and it shows the cases where routing cost more than it saved.</p>
+      <p class="formula">net saved = <span>baseline</span> − <span>actual</span> − <span>router overhead</span></p>
+      <div class="grid2">
+        <dl class="q">
+          <div><dt>baseline</dt><dd>What the default path would send: the full chat forwarded to Grok Build, or the cost of redoing cached work.</dd></div>
+          <div><dt>actual</dt><dd>What the routed path sent: the brief, the cached artifact, the short relay.</dd></div>
+          <div><dt>overhead</dt><dd>What Grok Bot spends calling the router. It's subtracted every time, even when nothing was saved.</dd></div>
+        </dl>
+        <ul class="plain">
+          <li><b>Estimates, clearly labeled.</b> Tokens are counted with tiktoken as a proxy, or chars/4 as a fallback. Grok's own tokenizer is not used.</li>
+          <li><b>Every number has a basis.</b> Each record says whether its baseline was measured from text, estimated or reported by the caller.</li>
+          <li><b>Guards keep the odds in your favor.</b> Context budget caps, an artifact cache with TTL, duplicate tool-call detection, a stop after repeated identical failures, and a summary before every handoff.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="open-source" aria-labelledby="oss-title">
+    <div class="wrap oss">
+      <div>
+        <h2 id="oss-title">Open source, MIT licensed</h2>
+        <p class="sub">The router, ledger, dashboard and skills are free to use, change and self-host. Built on <a href="https://github.com/Bodila51/grok-bot-jev">Bodila51/grok-bot-jev</a> (MIT), with attribution kept.</p>
+        <div class="ctas"><a class="btn" href="https://github.com/SuperfastSimon/jevgb">Star or fork on GitHub</a><a class="btn btn-quiet" href="https://github.com/SuperfastSimon/jevgb#readme">Read the docs</a></div>
+      </div>
+      <div class="card" id="sponsor">
+        <h3>Support the project</h3>
+        <p>If JevGB saves you time or tokens, sponsorship pays for maintenance, new skills and honest benchmarks.</p>
+        <a class="btn" href="https://github.com/sponsors/SuperfastSimon">Become a sponsor</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <p class="disclaimer">JevGB is an unofficial community project. It is not affiliated with or endorsed by xAI. Grok is a trademark of its owner; TypeSafe and Jev belong to TypeSafe. Token numbers are estimates.</p>
+    <p>MIT License · <a href="https://github.com/SuperfastSimon/jevgb">Source</a></p>
+  </div>
+</footer>
+</body>
+</html>

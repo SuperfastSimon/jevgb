@@ -1,0 +1,52 @@
+# Copy to config.yaml and edit locally. config.yaml is git-ignored.
+# Kill switch: enabled: false, or put "bypass jevgb" / "bypass jev" in the goal.
+enabled: true
+
+# shadow = log advice only; active = the Grok Bot skill must honor route.action.
+mode: shadow  # shadow | active
+
+# auto  = TypeSafe Jev if TYPESAFE_API_KEY is set and typesafe-sdk is installed, else local rules
+# local = offline rule-based classifier (free, no network)
+# jev   = always try Jev (falls back to local rules on error)
+classifier: auto
+model: jev-latest
+
+thresholds:
+  min_choice_confidence: 0.55
+  reuse_min: 0.65
+  subagent_min: 0.75
+
+limits:
+  max_browser_sources: 5
+  max_tokens_per_source: 1500
+  max_retries_same_error: 1
+
+budgets:
+  max_context_tokens: 4000      # cap for artifacts returned into the bot's context
+
+handoff:
+  enabled: true
+  max_brief_tokens: 1200        # hard cap for the Grok Build brief
+  max_summary_tokens: 500       # cap for the summarized chat context inside the brief
+  out_dir: handoffs
+
+cache:
+  path: .state/artifacts.json
+  ttl_minutes: 120
+  max_entries: 200
+
+retry:
+  path: .state/retries.json
+  max_same_approach_failures: 2
+  window_minutes: 240
+
+dedupe:
+  path: .state/toolcalls.json
+  ttl_minutes: 30
+
+tokens:
+  log_path: logs/tokens.jsonl
+  estimator: auto               # auto (tiktoken if installed) | chars4
+
+logging:
+  path: logs/runs.jsonl

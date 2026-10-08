@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JevGB · Token ledger</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#" aria-label="JevGB dashboard home">
+      <img src="mark-color.svg" alt="" width="36" height="36">
+      <span class="brand-name">JevGB</span>
+      <span class="brand-sub">Token ledger</span>
+    </a>
+    <div class="toolbar" role="toolbar" aria-label="Data source">
+      <span id="source" class="source" aria-live="polite">No data loaded</span>
+      <label class="btn btn-quiet" for="file">Open JSONL…</label>
+      <input id="file" type="file" accept=".jsonl,.json,.txt" class="visually-hidden">
+      <button id="demo" class="btn btn-quiet" type="button">Load simulated demo</button>
+      <button id="reload" class="btn" type="button" hidden>Reload</button>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap" tabindex="-1">
+  <div id="sim-banner" class="banner" role="note" hidden>
+    <strong>Simulated data.</strong>
+    <span id="sim-text">These records come from <code>scripts/demo_savings.py</code> and synthetic text. They show how accounting works, not what you will save.</span>
+  </div>
+  <div id="error" class="alert" role="alert" hidden></div>
+
+  <section id="empty" class="empty" aria-labelledby="empty-title">
+    <h1 id="empty-title">No ledger records yet</h1>
+    <p class="lede">The dashboard reads <code>logs/tokens.jsonl</code>, written each time a task is routed. Nothing has been logged, or no file is open.</p>
+    <ol class="steps">
+      <li><span>Route a task</span><code>jevgb route '{"goal":"Fix the failing test in app.py","files":["app.py"]}'</code></li>
+      <li><span>Serve this page with the live log</span><code>jevgb dashboard</code></li>
+      <li><span>Or explore first</span><button class="link" type="button" data-action="demo">load the simulated demo</button></li>
+    </ol>
+  </section>
+
+  <div id="content" hidden>
+    <section aria-labelledby="sum-title" class="summary">
+      <h1 id="sum-title" class="visually-hidden">Summary</h1>
+      <div class="kpi kpi-hero">
+        <p class="kpi-label">Net tokens saved <span class="hint">baseline − actual − router overhead</span></p>
+        <p class="kpi-value" id="k-net">–</p>
+        <p class="kpi-foot" id="k-pct"></p>
+      </div>
+      <dl class="kpis">
+        <div class="kpi"><dt>Baseline</dt><dd id="k-base">–</dd><p class="kpi-foot">what the default path would send</p></div>
+        <div class="kpi"><dt>Actual</dt><dd id="k-act">–</dd><p class="kpi-foot">what the routed path sent</p></div>
+        <div class="kpi"><dt>Router overhead</dt><dd id="k-over">–</dd><p class="kpi-foot">state written + decision read</p></div>
+        <div class="kpi"><dt>Tasks</dt><dd id="k-tasks">–</dd><p class="kpi-foot" id="k-neg"></p></div>
+      </dl>
+      <p class="estimate-note" id="estimator"></p>
+    </section>
+
+    <section aria-labelledby="act-title" class="panel">
+      <div class="panel-head">
+        <h2 id="act-title">By action</h2>
+        <p class="legend"><span class="sw sw-base" aria-hidden="true"></span>Baseline <span class="sw sw-act" aria-hidden="true"></span>Actual + overhead</p>
+      </div>
+      <ul id="actions" class="bars"></ul>
+    </section>
+
+    <section aria-labelledby="ho-title" class="panel">
+      <div class="panel-head">
+        <h2 id="ho-title">Handoffs to Grok Build</h2>
+        <button class="btn btn-quiet" type="button" id="open-brief">Open a brief file…</button>
+        <input id="brief-file" type="file" accept=".md,.txt" class="visually-hidden">
+      </div>
+      <div id="handoffs" class="cards"></div>
+    </section>
+
+    <section aria-labelledby="guard-title" class="panel">
+      <div class="panel-head"><h2 id="guard-title">Guards</h2></div>
+      <div class="guards">
+        <div><h3>Cache hits</h3><ul id="g-cache" class="mini"></ul></div>
+        <div><h3>Stopped retries</h3><ul id="g-retry" class="mini"></ul></div>
+        <div><h3>Duplicate calls skipped</h3><ul id="g-dupe" class="mini"></ul></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="tasks-title" class="panel">
+      <div class="panel-head">
+        <h2 id="tasks-title">Tasks</h2>
+        <div class="filters">
+          <label class="visually-hidden" for="q">Filter tasks</label>
+          <input id="q" type="search" placeholder="Filter by goal, action, task id" autocomplete="off">
+          <label class="visually-hidden" for="act-filter">Action</label>
+          <select id="act-filter"><option value="">All actions</option></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <caption class="visually-hidden">Routed tasks with estimated tokens</caption>
+          <thead><tr>
+            <th scope="col">Time</th><th scope="col">Task</th><th scope="col">Action</th>
+            <th scope="col" class="num">Baseline</th><th scope="col" class="num">Actual</th>
+            <th scope="col" class="num">Overhead</th><th scope="col" class="num">Net</th><th scope="col">Basis</th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p id="no-match" class="muted" hidden>No tasks match this filter.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="foot wrap">
+  <p><span id="powered">Powered by JevGB</span> · JevGB is an unofficial community project. It is not affiliated with or endorsed by xAI; Grok is a trademark of its owner. Extended from <a href="https://github.com/Bodila51/grok-bot-jev">Bodila51/grok-bot-jev</a> (MIT).</p>
+</footer>
+
+<dialog id="viewer" aria-labelledby="viewer-title">
+  <div class="viewer-head">
+    <div>
+      <p class="eyebrow" id="viewer-eyebrow">Handoff brief</p>
+      <h2 id="viewer-title">Brief</h2>
+    </div>
+    <button class="btn btn-quiet" type="button" id="viewer-close" aria-label="Close brief viewer">Close</button>
+  </div>
+  <div class="viewer-meta" id="viewer-meta"></div>
+  <div class="viewer-tools">
+    <button class="btn btn-quiet" type="button" id="copy-cmd">Copy send command</button>
+    <button class="btn btn-quiet" type="button" id="toggle-raw" aria-pressed="false">Show raw markdown</button>
+    <span id="copy-status" class="muted" aria-live="polite"></span>
+  </div>
+  <article id="viewer-body" class="md"></article>
+  <pre id="viewer-raw" class="raw" hidden></pre>
+</dialog>
+
+<script src="demo-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
