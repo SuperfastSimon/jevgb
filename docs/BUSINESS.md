@@ -32,9 +32,9 @@ All external facts below carry a source and an access date. All revenue numbers 
 
 Anyone may fork and sell the MIT core. The moat is trust, maintenance speed and honest measurement, not code secrecy.
 
-## 4. Revenue options and the credit-card constraint
+## 4. Revenue options without a credit card
 
-The maintainer can't use services that require a **credit card**. Receiving money usually needs a **bank account and identity checks**, which is a different thing. Requirements change, so verify each signup page before relying on it.
+The options below were chosen to avoid any **credit card** requirement. Receiving money usually needs a **bank account and identity checks**, which is a different thing. Requirements change, so verify each signup page before relying on it.
 
 | Option | Fees (source, accessed 2026-10-08) | Needs a credit card? | Notes / alternative |
 | --- | --- | --- | --- |
