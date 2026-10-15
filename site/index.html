@@ -5,8 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JevGB: measured token savings for Grok Bot and Grok Build</title>
 <meta name="description" content="Open-source router for Grok Bot: compact Grok Build handoffs, caching and retry guards, and a token ledger that measures savings instead of promising them. Unofficial community project.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JevGB">
+<meta property="og:title" content="JevGB: measured token savings for Grok Bot and Grok Build">
+<meta property="og:description" content="Open-source router for Grok Bot: compact Grok Build handoffs, caching and retry guards, and a token ledger that measures savings instead of promising them.">
+<meta property="og:url" content="https://superfastsimon.github.io/jevgb/">
+<meta property="og:image" content="https://superfastsimon.github.io/jevgb/assets/dashboard-hero.png">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="900">
+<meta property="og:image:alt" content="JevGB dashboard with simulated demo data">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<!-- No analytics or external requests are included. The sponsor link works once GitHub Sponsors is enabled for SuperfastSimon. -->
+<!-- No analytics or external requests are included. -->
 <style>
 :root{--ink:#14171C;--graphite:#3D434C;--slate:#5E6672;--mist:#D9DDE2;--haze:#ECEEF0;--paper:#F7F6F2;--white:#fff;--accent:#0F766E;--accent-weak:#E3F1EF;
 --sans:"IBM Plex Sans",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -63,7 +73,7 @@ footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   <nav aria-label="Main">
     <a class="brand" href="#" aria-label="JevGB home"><img src="assets/logo-color.svg" alt="JevGB" height="40" width="130"></a>
     <div class="navlinks">
-      <a href="#how">How it works</a><a href="#savings">Measured savings</a><a href="#open-source">Open source</a>
+      <a href="#how">How it works</a><a href="#savings">Measured savings</a><a href="#open-source">Open source</a><a href="demo/">Live demo</a>
       <a class="btn" href="https://github.com/SuperfastSimon/jevgb">View on GitHub</a>
     </div>
   </nav>
@@ -78,13 +88,14 @@ footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
       <p class="lede">JevGB sits in front of Grok Bot. It hands code work to Grok Build as a compact brief, reuses fresh results, stops repeated failures, and keeps a ledger of what each decision actually cost.</p>
       <div class="ctas">
         <a class="btn" href="https://github.com/SuperfastSimon/jevgb">Get the code</a>
+        <a class="btn btn-quiet" href="demo/">Live demo</a>
         <a class="btn btn-quiet" href="#savings">How savings are measured</a>
       </div>
-      <p class="cmd"><code>pip install -e . &amp;&amp; jevgb route '{"goal":"Fix the failing test"}'</code></p>
+      <p class="cmd"><code>git clone https://github.com/SuperfastSimon/jevgb.git &amp;&amp; cd jevgb &amp;&amp; pip install -e .</code></p>
     </div>
     <figure style="margin:0">
       <div class="shot"><img src="assets/dashboard-hero.png" alt="JevGB dashboard showing net tokens saved, router overhead and a breakdown by action. Demo data is labeled as simulated." width="1440" height="900" loading="eager"></div>
-      <figcaption class="caption">The local dashboard, shown with simulated demo data.</figcaption>
+      <figcaption class="caption">The local dashboard, shown with simulated demo data. <a href="demo/">Open the live demo</a>.</figcaption>
     </figure>
   </div>
 
@@ -127,10 +138,10 @@ footer .row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
         <p class="sub">The router, ledger, dashboard and skills are free to use, change and self-host. Built on <a href="https://github.com/Bodila51/grok-bot-jev">Bodila51/grok-bot-jev</a> (MIT), with attribution kept.</p>
         <div class="ctas"><a class="btn" href="https://github.com/SuperfastSimon/jevgb">Star or fork on GitHub</a><a class="btn btn-quiet" href="https://github.com/SuperfastSimon/jevgb#readme">Read the docs</a></div>
       </div>
-      <div class="card" id="sponsor">
-        <h3>Support the project</h3>
-        <p>If JevGB saves you time or tokens, sponsorship pays for maintenance, new skills and honest benchmarks.</p>
-        <a class="btn" href="https://github.com/sponsors/SuperfastSimon">Become a sponsor</a>
+      <div class="card" id="demo">
+        <h3>Try the dashboard</h3>
+        <p>The live demo runs in your browser on simulated data. Locally, <code>jevgb dashboard</code> shows your own ledger.</p>
+        <a class="btn" href="demo/">Live demo</a>
       </div>
     </div>
   </section>
