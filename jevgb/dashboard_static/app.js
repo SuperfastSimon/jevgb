@@ -81,7 +81,7 @@
     const net = $("#k-net");
     net.textContent = signed(s.net);
     net.className = "kpi-value " + (s.net >= 0 ? "pos" : "neg");
-    $("#k-pct").textContent = s.base ? `${(100 * s.net / s.base).toFixed(1)}% of measurable baseline (estimated)` : "No measurable baseline yet";
+    $("#k-pct").textContent = pctText(s.net, s.base);
     $("#k-base").textContent = fmt(s.base);
     $("#k-act").textContent = fmt(s.act);
     $("#k-over").textContent = fmt(s.over);
@@ -209,9 +209,21 @@
     }
   }
 
+  // A percentage of a tiny baseline is noise (e.g. "-4990%"), so only show it with enough data and cap the range.
+  const MIN_PCT_BASE = 1000;
+  function pctText(net, base) {
+    if (!base) return "No measurable baseline yet";
+    if (base < MIN_PCT_BASE) return `Too little measurable baseline for a percentage (${fmt(base)} tokens)`;
+    const pct = 100 * net / base;
+    if (pct < -100) return "Cost more than the measurable baseline (estimated)";
+    return `${pct.toFixed(1)}% of measurable baseline (estimated)`;
+  }
+
   async function loadLive() {
     try {
       const r = await fetch("/api/tokens", { cache: "no-store" });
+      // No local server behind this page (static host such as GitHub Pages): show the simulated demo.
+      if (r.status === 404 && window.JGB_DEMO) return loadDemo(false);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const d = await r.json();
       state = { records: d.records || [], briefs: {}, simulated: false, source: d.source, errors: d.errors || [] };
